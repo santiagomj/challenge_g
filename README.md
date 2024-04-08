@@ -24,14 +24,14 @@ were configured manually through the AWS console, showcasing a hybrid approach t
     
        *   **s3\_to\_rds\_lambda\_function**: Processes data from S3 and inserts it into an Aurora RDS instance.
        <p align="left">
-           <img src="docs/s3_to_rds_lambda.svg" alt="Diagram insert_data_lambda" width="800" height="500">
+           <img src="docs/s3_to_rds_lambda.svg" alt="Diagram s3tords">
        </p>
        
        <br><br>
         
        *   **insert\_data\_lambda\_function**: Handles data insertion into RDS from API Gateway requests.
        <p align="left">
-             <img src="docs/insert_data_lambda.svg" alt="Diagram insert_data_lambda" width="500" height="600">
+             <img src="docs/insert_data_lambda.svg" alt="Diagram insert_data_lambda">
        </p>
         
   *   Both functions are equipped with custom and SDK lambda layers for additional functionalities and logging.
@@ -56,13 +56,20 @@ This project incorporates two critical AWS Glue jobs, facilitating the movement 
 ### Job 1: RDSToS3
 
 This job is designed to extract data from the RDS Aurora MySQL Serverless database and store it in designated S3 buckets. The job iterates over specified database tables, executing SQL queries to fetch the data. The results are then formatted into Avro format and saved into S3, structured by the corresponding table names.
+<p align="left">
+     <img src="docs/RDSToS3JobGlue.svg" alt="Diagram job glue">
+</p>
+<br>
 
 ### Job 2: S3ToRDS
 
 This job focuses on importing data from S3 back into the RDS Aurora MySQL Serverless database. It reads Avro formatted files from S3, representing data from different tables like departments, employees, and jobs. Each data set is then inserted into its respective table in the database, ensuring that the data flow is bidirectional and versatile.
 
 Both jobs are dynamically configured to handle multiple tables and employ a combination of AWS Glue's dynamic frames, Spark SQL queries, and JDBC connections.
-
+<p align="left">
+     <img src="docs/S3ToRDSJobGlue.svg" alt="Diagram job glue">
+</p>
+<br>
 
 ## Database Schema Overview
 
@@ -97,3 +104,47 @@ Data Exploration Insights
 ---------------------------
 
 This section of the project provides insights into hiring trends through two SQL queries executed on the AWS RDS database.
+```sql
+
+SELECT
+    d.department_name AS department,
+    j.job_name AS job,
+    COUNT(CASE WHEN QUARTER(e.datetime) = 1 THEN 1 END) AS Q1,
+    COUNT(CASE WHEN QUARTER(e.datetime) = 2 THEN 1 END) AS Q2,
+    COUNT(CASE WHEN QUARTER(e.datetime) = 3 THEN 1 END) AS Q3,
+    COUNT(CASE WHEN QUARTER(e.datetime) = 4 THEN 1 END) AS Q4
+FROM employees e
+INNER JOIN departments d ON e.department_id = d.id
+INNER JOIN jobs j ON e.job_id = j.id
+WHERE YEAR(e.datetime) = 2021
+GROUP BY d.department_name, j.job_name
+ORDER BY d.department_name, j.job_name;
+```
+<p align="left">
+     <img src="docs/req1_chall2.svg" alt="Diagram sql">
+</p>
+<br>
+
+```sql
+SELECT
+    d.id,
+    d.department_name AS department,
+    COUNT(*) AS hired
+FROM employees e
+INNER JOIN departments d ON e.department_id = d.id
+GROUP BY d.id
+HAVING COUNT(*) > (
+    SELECT AVG(hired_count)
+    FROM (
+        SELECT COUNT(*) AS hired_count
+        FROM employees
+        WHERE YEAR(datetime) = 2021
+        GROUP BY department_id
+    ) AS avg_hired
+)
+ORDER BY hired DESC;
+```
+<p align="left">
+     <img src="docs/req2_chall2.svg" alt="Diagram sql">
+</p>
+<br>
