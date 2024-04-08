@@ -8,7 +8,7 @@ some, like certain AWS Glue jobs and an RDS Aurora MySQL Serverless database,
 were configured manually through the AWS console, showcasing a hybrid approach to infrastructure setup. 
 
 <p align="center">
-  <img src="docs/init.drawio.svg" alt="Diagram arch">
+  <img src="docs/arch.svg" alt="Diagram arch">
 </p>
 
 ## AWS Cloud Development Kit (CDK) Configuration
