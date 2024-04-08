@@ -64,31 +64,31 @@ def lambda_handler(event: Dict[str, Any], context: Optional[Any]) -> None:
         logger.info(f"Data written successfully to table: {schema}.{table_name}")
 
 
-event_config = {
-    "secret_id": "chall_g_aurora_serverless",
-    "tables": [
-        {
-            "s3_path": "s3://challenge-g-data-lake/raw/departments.xlsx",
-            "table_name": "departments",
-            "schema": "chall_g",
-            "headers": ["id", "department_name"],
-            "mode": "overwrite"
-        },
-        {
-            "s3_path": "s3://challenge-g-data-lake/raw/hired_employees.xlsx",
-            "table_name": "employees",
-            "schema": "chall_g",
-            "headers": ["id", "name", "datetime", "department_id", "job_id"],
-            "mode": "overwrite"
-        },
-        {
-            "s3_path": "s3://challenge-g-data-lake/raw/jobs.xlsx",
-            "table_name": "jobs",
-            "schema": "chall_g",
-            "headers": ["id", "job_name"],
-            "mode": "overwrite"
-        }
-    ]
-}
-
-lambda_handler(event=event_config, context=None)
+# event_config = {
+#     "secret_id": "chall_g_aurora_serverless",
+#     "tables": [
+#         {
+#             "s3_path": "s3://challenge-g-data-lake/raw/departments.xlsx",
+#             "table_name": "departments",
+#             "schema": "chall_g",
+#             "headers": ["id", "department_name"],
+#             "mode": "overwrite"
+#         },
+#         {
+#             "s3_path": "s3://challenge-g-data-lake/raw/hired_employees.xlsx",
+#             "table_name": "employees",
+#             "schema": "chall_g",
+#             "headers": ["id", "name", "datetime", "department_id", "job_id"],
+#             "mode": "overwrite"
+#         },
+#         {
+#             "s3_path": "s3://challenge-g-data-lake/raw/jobs.xlsx",
+#             "table_name": "jobs",
+#             "schema": "chall_g",
+#             "headers": ["id", "job_name"],
+#             "mode": "overwrite"
+#         }
+#     ]
+# }
+#
+# lambda_handler(event=event_config, context=None)

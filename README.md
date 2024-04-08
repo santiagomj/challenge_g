@@ -8,7 +8,7 @@ some, like certain AWS Glue jobs and an RDS Aurora MySQL Serverless database,
 were configured manually through the AWS console, showcasing a hybrid approach to infrastructure setup. 
 
 <p align="center">
-  <img src="docs/init.drawio.svg" alt="Diagram Description">
+  <img src="docs/init.drawio.svg" alt="Diagram arch">
 </p>
 
 ## AWS Cloud Development Kit (CDK) Configuration
@@ -19,13 +19,22 @@ were configured manually through the AWS console, showcasing a hybrid approach t
     
 2.  **IAM Role**: Grants necessary permissions for Lambda functions to access AWS services like S3, RDS Data API, and Secrets Manager.
     
-3.  **Lambda Functions**:
+   3.  **Lambda Functions**:
+       <br><br>    
     
-    *   **s3\_to\_rds\_lambda\_function**: Processes data from S3 and inserts it into an Aurora RDS instance.
+       *   **s3\_to\_rds\_lambda\_function**: Processes data from S3 and inserts it into an Aurora RDS instance.
+       <p align="left">
+           <img src="docs/s3_to_rds_lambda.svg" alt="Diagram insert_data_lambda" width="750" height="500">
+       </p>
+       
+       <br><br>
         
-    *   **insert\_data\_lambda\_function**: Handles data insertion into RDS from API Gateway requests.
+       *   **insert\_data\_lambda\_function**: Handles data insertion into RDS from API Gateway requests.
+       <p align="left">
+             <img src="docs/insert_data_lambda.svg" alt="Diagram insert_data_lambda" width="500" height="600">
+       </p>
         
-    *   Both functions are equipped with custom and SDK lambda layers for additional functionalities and logging.
+  *   Both functions are equipped with custom and SDK lambda layers for additional functionalities and logging.
         
 4.  **API Gateway**: Provides a RESTful endpoint **insert\_data** for data operations, secured with API keys for authorized access.
     
@@ -83,3 +92,8 @@ The schema for the employee management system consists of three main tables desi
 | department_id | INT          |                              |
 | job_id        | INT          |                              |
 
+
+Data Exploration Insights
+---------------------------
+
+This section of the project provides insights into hiring trends through two SQL queries executed on the AWS RDS database.
