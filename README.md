@@ -100,7 +100,7 @@ The schema for the employee management system consists of three main tables desi
 | job_id        | INT          |                              |
 
 
-Data Exploration Insights
+Data Exploration Insights (Challenge 2)
 ---------------------------
 
 This section of the project provides insights into hiring trends through two SQL queries executed on the AWS RDS database.
