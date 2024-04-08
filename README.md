@@ -24,7 +24,7 @@ were configured manually through the AWS console, showcasing a hybrid approach t
     
        *   **s3\_to\_rds\_lambda\_function**: Processes data from S3 and inserts it into an Aurora RDS instance.
        <p align="left">
-           <img src="docs/s3_to_rds_lambda.svg" alt="Diagram insert_data_lambda" width="750" height="500">
+           <img src="docs/s3_to_rds_lambda.svg" alt="Diagram insert_data_lambda" width="800" height="500">
        </p>
        
        <br><br>
